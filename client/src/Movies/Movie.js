@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const Movie = (props) => {
   const [movie, setMovie] = useState({});
- 
+  console.log("Match: ", props)
   useEffect(() => {
     const id = props.match.params.id;
     // change ^^^ that line and grab the id from the URL
@@ -44,11 +44,11 @@ const Movie = (props) => {
         </div>
         <h3>Actors</h3>
 
-        {stars.map(star => (
+        {/* {stars.map(star => (
           <div key={star} className="movie-star">
             {star}
           </div>
-        ))}
+        ))} */}
       </div>
       <div className="save-button">Save</div>
     </div>
