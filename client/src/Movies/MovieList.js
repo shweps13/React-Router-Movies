@@ -29,6 +29,7 @@ const MovieList = props => {
   );
 }
 
+
 function MovieDetails({ movie }) {
   const { title, director, metascore, stars } = movie;
   return (
