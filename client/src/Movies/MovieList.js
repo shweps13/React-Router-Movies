@@ -4,13 +4,15 @@ import { Link } from "react-router-dom";
 
 const MovieList = props => {
   const [movies, setMovies] = useState([])
+  console.log(props);
+
   useEffect(() => {
     const getMovies = () => {
       axios
         .get('http://localhost:5000/api/movies')
         .then(response => {
           setMovies(response.data);
-          console.log("MovieList data", response.data);
+          // console.log("MovieList data", response.data);
         })
         .catch(error => {
           console.error('Server Error', error);
@@ -23,27 +25,33 @@ const MovieList = props => {
   return (
     <div className="movie-list">
       {movies.map(movie => (
-        <MovieDetails key={movie.id} movie={movie} />
+        <MovieDetails {...props} key={movie.id} movie={movie} />
       ))}
     </div>
   );
 }
 
 
-function MovieDetails({ movie }) {
-  const { title, director, metascore, stars } = movie;
+
+function MovieDetails(props) {
+  console.log(props);
+  function moveToMovie (props) {
+    console.log(props);
+    props.history.push(`/movies/${props.movie.id}`)
+  }
   return (
-    <div className="movie-card">
-      <Link to={`/movies/${movie.id}`}><h2>{title}</h2></Link>
+    // <div className="movie-card" key={props.movie.id}>
+    <div onClick={() => moveToMovie(props)} className="movie-card" key={props.movie.id}>
+      <Link to={`/movies/${props.movie.id}`}><h2>{props.movie.title}</h2></Link>
       <div className="movie-director">
-        Director: <em>{director}</em>
+        Director: <em>{props.movie.director}</em>
       </div>
       <div className="movie-metascore">
-        Metascore: <strong>{metascore}</strong>
+        Metascore: <strong>{props.movie.metascore}</strong>
       </div>
       <h3>Actors</h3>
 
-      {stars.map(star => (
+      {props.movie.stars.map(star => (
         <div key={star} className="movie-star">
           {star}
         </div>
@@ -51,5 +59,6 @@ function MovieDetails({ movie }) {
     </div>
   );
 }
+
 
 export default MovieList;
